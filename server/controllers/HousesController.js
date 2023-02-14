@@ -9,6 +9,7 @@ constructor(){
     .get('/:house_id', this.get_house_by_id)
     .post('', this.create_house)
     .delete('/:house_id', this.delete_house)
+    .put('/:house_id', this.update_house)
 }
 
 async get_houses(req, res, next){
@@ -41,6 +42,17 @@ async get_house_by_id(req, res, next){
   }
 }
 
+
+async update_house(req, res, next){
+  try {
+    const house_id = req.params.house_id
+    const house_data = req.body
+    const house = await housesService.update_house(house_id, house_data)
+    res.send(house)
+  } catch (error) {
+    next(error)
+  }
+}
 async delete_house(req, res, next){
 try {
   const house_id = req.params.house_id
