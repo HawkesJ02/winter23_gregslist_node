@@ -6,7 +6,9 @@ constructor(){
   super('api/houses')
   this.router
     .get('', this.get_houses)
+    .get('/:house_id', this.get_house_by_id)
     .post('', this.create_house)
+    .delete('/:house_id', this.delete_house)
 }
 
 async get_houses(req, res, next){
@@ -29,5 +31,23 @@ async create_house(req, res, next){
   }
 }
 
+async get_house_by_id(req, res, next){
+  try {
+    const house_id = req.params.house_id
+    const house = await housesService.get_house_by_id(house_id)
+    return res.send(house)
+  } catch (error) {
+    next(error)
+  }
+}
 
+async delete_house(req, res, next){
+try {
+  const house_id = req.params.house_id
+  const house = await housesService.delete_house(house_id)
+  return res.send(house)
+} catch (error) {
+  next(error)
+}
+}
 }
