@@ -6,6 +6,7 @@ constructor(){
   super('api/houses')
   this.router
     .get('', this.get_houses)
+    .post('', this.create_house)
 }
 
 async get_houses(req, res, next){
@@ -16,6 +17,17 @@ async get_houses(req, res, next){
   } catch (error) {
     next(error)
   }
-
 }
+
+async create_house(req, res, next){
+  try {
+    const house_data = req.body
+    const house = await housesService.create_house(house_data)
+    res.send(house)
+  } catch (error) {
+    next(error)
+  }
+}
+
+
 }
